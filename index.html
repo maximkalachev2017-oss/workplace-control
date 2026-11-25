@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Контроль рабочего места — макет</title>
+<style>
+:root{--bg:#e9ecf2;--card:#fff;--ink:#1d2330;--muted:#5f6b7a;--line:#d8dde5;--pri:#0b33a8;--pri2:#e6ecfb;
+--ok:#1e7d3c;--okbg:#e3f4e8;--warn:#9a6200;--warnbg:#fff3d6;--err:#b3261e;--errbg:#fde5e2;--grey:#8a929e;--greybg:#eceef1;
+--g:#2e9e4f;--y:#f2b705;--r:#d93a2b;--s:#a7adb7}
+*{box-sizing:border-box}
+html{font-size:17px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,system-ui,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.4}
+a{color:var(--pri)}
+.page{max-width:430px;margin:0 auto;padding:12px 16px 40px}
+.intro{background:#fff;border-radius:14px;padding:14px 16px;margin:8px 0 18px;border:1px solid var(--line)}
+.intro h1{font-size:1.25rem;margin:.3rem 0 .4rem}
+.intro p{margin:.3rem 0;color:var(--muted);font-size:.9rem}
+.toc{display:grid;grid-template-columns:1fr;gap:6px;margin-top:10px}
+.toc a{display:block;padding:10px 12px;border-radius:10px;background:var(--pri2);text-decoration:none;font-weight:600;font-size:.95rem}
+.toc .grp{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:8px 0 0}
+.logo{display:inline-block;width:112px;height:34px;background:url(data:image/jpeg;base64,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) left center/contain no-repeat}
+.logo.big{width:220px;height:66px}
+.cap{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:26px 4px 6px}
+.cap b{color:var(--ink);font-size:.95rem;text-transform:none;letter-spacing:0;display:block}
+.phone{background:var(--bg);border:8px solid #1b1f27;border-radius:34px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.18);scroll-margin-top:10px}
+.status{display:flex;justify-content:space-between;background:#fff;padding:6px 18px 2px;font-size:.75rem;font-weight:600}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;padding:6px 14px 8px;border-bottom:4px solid var(--pri)}
+.top .who{font-size:.75rem;color:var(--muted);text-align:right;line-height:1.2}
+.scr{padding:12px 14px 6px;min-height:560px;display:flex;flex-direction:column}
+.scr h2{font-size:1.25rem;margin:.2rem 0 .6rem}
+.scr h3{font-size:1rem;margin:.8rem 0 .4rem}
+.sub{color:var(--muted);font-size:.88rem;margin:-.3rem 0 .7rem}
+.grow{flex:1}
+.foot{text-align:right;font-size:.65rem;color:var(--muted);padding:6px 14px 10px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:60px;padding:10px 16px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:1.1rem;font-weight:700;text-decoration:none;margin:10px 0;text-align:center}
+.btn.pri{background:var(--pri);color:#fff;border-color:var(--pri)}
+.btn.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.btn.no{background:var(--err);color:#fff;border-color:var(--err)}
+.btn.huge{min-height:96px;font-size:1.4rem}
+.btn.sm{min-height:44px;font-size:.95rem;font-weight:600;margin:6px 0}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--pri);min-height:44px;font-size:.95rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.two .btn{margin:6px 0}
+.fld{display:block;font-size:.8rem;color:var(--muted);margin:8px 0 2px}
+.inp{display:block;border:1px solid var(--line);border-radius:10px;background:#fff;min-height:52px;padding:13px 12px;font-size:1.1rem;color:var(--ink)}
+.inp.ph{color:#9aa3af}
+.role{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 14px;border:2px solid var(--line);border-radius:14px;background:#fff;text-decoration:none;color:var(--ink);margin:8px 0;font-weight:700;font-size:1.05rem}
+.role small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
+.role .ic{flex:0 0 40px;height:40px;border-radius:10px;background:var(--pri2);display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.role.sel{border-color:var(--pri);background:var(--pri2)}
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0}
+.step{border-radius:12px;padding:10px;font-size:.85rem;background:var(--greybg);color:var(--muted)}
+.step b{display:block;font-size:1rem;color:var(--ink)}
+.step.done{background:var(--okbg);color:var(--ok)}
+.step.wait{background:var(--warnbg);color:var(--warn)}
+.big{font-size:2rem;font-weight:800;color:var(--pri);line-height:1.1}
+.cam{position:relative;height:330px;border-radius:16px;background:linear-gradient(160deg,#3a4150,#1c2029);overflow:hidden;margin:6px 0;display:flex;align-items:center;justify-content:center}
+.cam .frame{width:190px;height:190px;border:4px solid #fff;border-radius:18px;box-shadow:0 0 0 2000px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center}
+.qr{width:130px;height:130px;background:
+ linear-gradient(90deg,#fff 0 0) 0 0/0 0,
+ repeating-linear-gradient(90deg,#111 0 10px,#fff 10px 16px,#111 16px 22px,#fff 22px 34px),#fff;
+ border:10px solid #fff;outline:2px solid #111;opacity:.85}
+.cam .hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;color:#fff;font-size:.9rem}
+.cam .tag{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.5);color:#fff;font-size:.75rem;padding:3px 8px;border-radius:8px}
+.shot{width:84px;height:84px;border-radius:50%;border:6px solid #fff;background:#fff;box-shadow:0 0 0 3px #1b1f27 inset;margin:12px auto;display:block;text-decoration:none}
+.camwrap{background:#111;border-radius:16px;padding:6px 6px 2px}
+.camwrap .note{color:#cfd5de;font-size:.78rem;text-align:center;padding:0 6px 8px}
+.opt{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 14px;border:2px solid var(--line);border-radius:12px;background:#fff;margin:7px 0;font-size:1rem;font-weight:600;text-decoration:none;color:var(--ink)}
+.opt .rb{flex:0 0 24px;height:24px;border-radius:50%;border:2px solid var(--muted)}
+.opt.sel{border-color:var(--err);background:var(--errbg)}
+.opt.sel .rb{border:7px solid var(--err)}
+.okbig{text-align:center;padding:14px 0}
+.okbig .c{width:96px;height:96px;border-radius:50%;background:var(--ok);color:#fff;font-size:3rem;line-height:96px;margin:6px auto 10px;font-weight:800}
+.okbig .c.y{background:var(--grey)}
+.leg{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.78rem;margin:4px 0 8px}
+.leg i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:4px}
+.cnt{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:6px 0}
+.cnt div{border-radius:10px;padding:6px 4px;text-align:center;font-size:.7rem;color:#fff;font-weight:600}
+.cnt b{display:block;font-size:1.35rem}
+.zone{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin:8px 0}
+.zone .zn{font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:6px}
+.map{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.m{display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;border-radius:9px;color:#fff;font-weight:700;font-size:.78rem;text-decoration:none}
+.g{background:var(--g)}.y{background:var(--y);color:#3a2b00}.r{background:var(--r)}.s{background:var(--s)}
+.feed{list-style:none;margin:0;padding:0}
+.feed li{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.88rem}
+.feed li:last-child{border-bottom:0}
+.feed .t{flex:0 0 44px;color:var(--muted);font-variant-numeric:tabular-nums}
+.feed .d{flex:0 0 10px;height:10px;border-radius:50%;margin-top:6px}
+.tabs{display:flex;gap:6px;margin:4px 0 8px}
+.tabs a,.tabs span{flex:1;text-align:center;padding:9px 4px;border-radius:10px;background:#fff;border:1px solid var(--line);font-size:.85rem;font-weight:600;text-decoration:none;color:var(--ink)}
+.tabs .on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.photo{height:150px;border-radius:10px;background:repeating-linear-gradient(45deg,#cfd5de 0 12px,#dfe3ea 12px 24px);display:flex;align-items:center;justify-content:center;color:#5f6b7a;font-size:.85rem;margin:6px 0}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.92rem}
+.kv span{color:var(--muted)}
+.bar{height:10px;border-radius:5px;background:var(--greybg);overflow:hidden;display:flex}
+.bar i{display:block;height:100%}
+.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
+.tbl th,.tbl td{padding:7px 4px;border-bottom:1px solid var(--line);text-align:center}
+.tbl th{font-size:.72rem;color:var(--muted);font-weight:600}
+.tbl td:first-child,.tbl th:first-child{text-align:left}
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.75rem;font-weight:700}
+.pill.g{color:#fff}.pill.s{color:#fff}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:.72rem;text-align:center}
+.cal .h{color:var(--muted);font-weight:600}
+.cal a,.cal span.c{display:block;border-radius:8px;padding:5px 0;background:#fff;border:1px solid var(--line);text-decoration:none;color:var(--ink);line-height:1.25}
+.cal b{display:block;font-size:.85rem}
+.cal .off{background:var(--greybg);color:var(--muted)}
+.cal .edt{border:2px solid var(--pri);background:var(--pri2)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:0;border:2px solid var(--pri);border-radius:12px;overflow:hidden;margin:6px 0}
+.seg span{text-align:center;padding:12px 4px;font-weight:700}
+.seg .on{background:var(--pri);color:#fff}
+.lock{background:linear-gradient(170deg,#3b4f8f,#141a2e 70%);min-height:640px;padding:20px 12px;color:#fff}
+.lock .tm{text-align:center;font-size:3.6rem;font-weight:300;line-height:1;margin-top:18px}
+.lock .dt{text-align:center;font-size:1rem;opacity:.85;margin-bottom:26px}
+.ntf{background:rgba(255,255,255,.88);color:#111;border-radius:18px;padding:10px 12px;margin:9px 0;display:flex;gap:10px;text-decoration:none}
+.ntf .ai{flex:0 0 38px;height:38px;border-radius:9px;background:#fff url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wgARCACaAgADASIAAhEBAxEB/8QAGwABAAMBAQEBAAAAAAAAAAAAAAUGBwQCAwH/xAAZAQEAAwEBAAAAAAAAAAAAAAAAAgMEAQX/2gAMAwEAAhADEAAAAbwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+RVBuhpP5l66vUGXjUGXjUGXjVOjI5iMtEfP6ZbQAAAAAAAAAAAAAAAAAAAAAAAAM1jenm9XI6eq/1Tr0xzROa2yKv+OWn8q/zIDz78ehmudppzBpuLIlkddZENdZENdZENdZF7NaZzc6JyZUISt7ImqrXWa6VnsCuRnETqq11kVr4uSuUaPdcZEtjrrIhrrIv01xUbdltI2lzjozJfF8NdZF2caiq1pzWhHoAAGWfP6Tnp5bXS7BRs9mg9HbVKLJxQpa6Nn+tY4Ypim6rmFtdknoG5U2UNfHGdw+hZ7rq7JX1eaZ0RelUqL8NBdZJ9rHVttGpU2Sjct1f9ebBrpr+l5paaZ3Pi7ahjuqX0+dl9HNWp6BnTvqdsqcOynZMWTPbQ18R7nkNo2c6qrBc6ZKUWVH4rTqp4PtfGK+hw2q8EuZldKV36qtOHmagAAMsudMuu6iDgpmMshaLPRbhjvpN6qFglyPrHnj1VaFWLHX6LOy5U25VSCmcLnmh55vz2O0Vi7UWZL+W75aqqstArKXiLIWvk7OPNbX9Az/RJcoHubrlsdazCcrFM/eh1m2Q7mc7BTumrvqdsqcO3iyVuyYdAQlE5zo2c789g6+TsjKp3mjXiULIMGkfhlnj89+tk1UeTrAAAyyy1r6ejmsn3m6rlusED5Tj9rFV5mEvzP7XzXV2ygXfOOLVcqbcqbApnC57oWe789jvFHtFFncyVZHWuXL/1ySjU5orsUDfKHkvr+iZ3o1tf7nGuZlCXAdmyi79MhweXszKdgp30cvfU7ZU4du9lrljxaArlEZ1oudbs9gn4C+VWZHJdcFro07qydns1Wr1JPiajNF6kB5+gAADLObs4/Wx2CUgbpkvikqqlE+pXr52vTvBS5x/Y83Z7Xcahb/P0hTPxVbalyBm/bipeLgtjT1wEBPfqqSv2B1VLT6CEm3FOlZxPj8/Vcqr02FZGGircPj9iuQHmrWtLlfsAIGecU/8ALitjTvvanO83SVSAAAAqVQ1yF1VUXrnvNsINOHYPlsxyoLenGofS3zlcvEgYrw50AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//xAAsEAABBAECBgEEAQUAAAAAAAADAAIEBQEVNBAREhMUMjAgITVQJCIlM3CA/9oACAEBAAEFAv8AQ3kgXlR15UdeVHXlR15UdeVHXlR0wwn/ALafMxFGY5D5+GHYFj5Y9pGfs7EuSzOAAEO4FO3k2DFavEjrxI68SOvFjJ3LqVEXLh/s5O6UGJmUQQxgG6Y8ifqzl0Wy6LVdu1TwWZGubljlQe9/7fC3OWoFhIDmHMHKarmSRpOFcXsS+NoXvTOFNJfktzJeEefv9dNJI8imTBxWnsZBcuzl3Eck41CtevPwyd0NmSkjhbHFZTfIfVj6IT5cdjvOirzoq86KhSQldcRebFQe86JiWPR5K0eSpFcaOJRYz5T9HlLR5K0eStHkotXJG1CI4RI5cHDd71ZxnHCAbvxVLL2Iyaxz+FLvL/2UWCWUzR5S0eStHko9acIlR705WgCYrjEQquSRujyVo8pFCQLlTSsvb8EndUguotuftR2N63txhrTVJCFmR/FKOoK5uivRgurj/wBJhGZ2jUPvxuPx6o939N2DDcqiJzZeb1EDh1OqMvJ6vS/dQw8qxUu8v/ZUW142uwVHvb0nISpI+Hu4zI+JIFCJkcv4JO6pW8od27nKG/IyNuR54bq1MTAhayJTJGZJql/VBuG9M2h9+Nx+PVHu7DZcsLlhcsLljjQe15vVWsw+rIzIyRydk3P7Si96QxuXukj7VaqXeX/sqLa8bXYKj3t97Kj2n0SNwL/J8EndU2f4N1j+aGOY6iV8jEmUTtR6MfM1k0pIpopw4VNsrre0PvxuPx6o909uHtfTZ56MRaMVaMVTILojFQe15vVU/j7sPQdNmf2lUwe5Jn7NUu8v/ZUW142uwVHvb/2VFn+N9BHdZAY5n+CTuqIn2vBc2QJEYETzoqtZoiBqjxwRhSBGzbOw2EoguxHnk7suh9+Nx+PVHul1NXU1dTUWUAOJ0rMoqpw9qLeb1VP4+yD34nGqD2ok/ZKl3l/7Ki2vG12Co97bh7kRQZTopRSwFx1tTijbiysWuYqkPdl/BJ3MM3jyHtYcOiuWivWivWivVfC8TF6RVMTuEsJHjx1Q+/G4/Hqj3dhsvproOZD1d71VeOmApwfHlKIHvyFO2apd5f8AsqPHKLxtcdUBUe9VlBdHf9IRPM+HGbFD8EndKDY+MPWRLWRLWRLWRJtwN2cwnS5LnDjimysyiqh9+Lm4c0lLjLoFfmIR2MOa+l5u0XK0XK0XKBVAHxnV2ZRhUzcOxjDcKfA8t2i5UCv8R/AtM3LoVbmKawheYm0v3ENomcXYw5pKZuXQK7MU3A9WAq0XK0TK0TKHTMxkIRgb8MvGcS1WR2yJPgxV4MVeDFXgxUxjB4k2AAKVKJKdwocZ5/s7iJl2UIxAZ1CWtQlrUJa1CWiSDE+hjHEdCj+MD9pIrY5s6K1aLhaLhaLhaLhaLhaLhaLhNphqPFFHx/xh/8QAJxEAAgEDBAIBBAMAAAAAAAAAAAECAxETEiExMhBBICJAQ2FQUWD/2gAIAQMBAT8B/gpTUTMZjKZRVV93LkhTvybR4L/o1frwnaFzMZTKZTKRmmN2VzMRlq8OpYVS7JTsZTKZhO6uSmkZTKhO/wAbXkTfpG6Wxql/RqfsqL2Q6mOJUST2IQTW5jiY4klpZN3gRVyk9yTsiKuQ7FXsRhGxjiVEk9iDtAS1MxxHTXog7P4w7Ml2It23I8XJSlwyXQp9fFXkp9TRI0TJJrk/GUuR/SypK5BfSQ7FXsR48VeT8ZS7effxTtMad7oetkdXBNapWKj9FPr4q8lPqZjMbyZNWiUuSqvYlc9EOxU7EePFXkgrwN4syjqtlON3f4y5IarFpG45KI3ch18NJiVjRE0RErDVxJItcUUvGlDin5aTLWGrmiJoj8p077mmZaoaZmOQqT9/5n//xAAtEQABBAADCAEDBQEAAAAAAAABAAIDEQQSFBATITEyM1FhIDRBQiNAUFLwYP/aAAgBAgEBPwH+CjhL+K0g8rSDytIPK0g8p2GI5H92zpCmnycBzX6j+bluj/YLdn+2x8eabKtJ7Wk9rSe1pPa0ntPhcxMbnNLSe1LHuzWxuGsXakw5aLtRwF4taT2tJ7Wk9p7Sw0UyFz+S0ntHCn7FOYWmj8S7LHaw7Pzchlc4l5RiiAslbqM8GnisM+xlKnJEthaiRQPLm2VNM9r6C1Ei1D0xwkbaiblmpOdlpYhtttRtzOpPdlCl7ZUHbCkneHEBaiRQPL22VK3NNSe4RttamRMxLr4qZmZnxn7QUdCMWpWsBAYpqzhvhRxsHFqi7xWI7h2YXoU5qVahnlb+PymuDhYQ+oWK6Ew52WsPHlJtTut4Cl7ZUHbCl6zswvQj9QsT0bfx+L25oqTHNLMjymiEG8yl3ZtwPFRHdxZisMOJcViO4dmF6FOLlWk9rSDyrbG1QnNLaxXSsK78UTQtXb7UvbKg7YUvWdmF6FMcstoFsjVpPaZhg02VPIGtr4t6Qpd0HcQs0XhF0f2CbG+TnyTWhooLEdw7Gvc3knOLjZW/k8rUSeUXF3NNcWmwnPc7mmuLTYTpnuFE7N68irQle0UDta9zeSc4uNlBxbyWok8ozyeflFiMoooywnmt5B/gt7D/AILUR+U7EtHJE2b/AOY//8QAPhAAAQICAg0KBgIDAQEAAAAAAQACAxEQEiAhIjEyM0FRc4GSscETQlJhcXKCkaLRBCMwNKHhUGIU8PFwgP/aAAgBAQAGPwL/AMGx8PaCx8LbCx8LbCx8LbCx8LbCx8LbCx8LbCx8LbCkyKx3Y7+WzvOCFOK8n6UiS+HmKD2GYP8AKRD0TVGqmrCaSpx3lxzNWIZrE1iIeysRD2ViIeysRD2UZXp2qIkI8wzGv+UjaR2+iXMGEVVYA1oR/wAKDysjIunIK9V6m1Vz9oLn7QV+JtBVX1yM1cItcJEUR9XFQPFw+lckhYZeMzraubThfbQ2CwlolWMqWOyG5Ng/M25pMFxJbKYmmMhmRflUzbs3QXkuFWYnRdW3G81YZY3M20puJPbTNsV41oM+IkD0/pRtI7emsbfJQY28FUhn5Q/Kh/2ukWvitDh1rHs81j2eax7PNVYcRrj1Fcu2+3C7KI2rigJycLxWFB8z7LCg+Z9kYsQw6ozE0FkMtmBO6WFB8z7LCg+Z9lhQfM+ywoPmfZTk1/cNAewycE2I3KENGN5oE8onQx+WUj20PiZha7aDVyCZo8JXw/i4UF8IsABldFYUHzPssKD5n2WFB8z7J0R7ochmNB0Z3hOiOvNRe82zROTWd8rCg+Z9lhQvM+yqxWFpo5B99guez6MbSO3p8U820FUabqJa1JrOkZINF4J7zGbdGeCuTL6xlO8gXRA05pTWOGyoTuUrG/aCztcE+GeaZKNq42ETVvodo+Ismxm5TJ1EWH0TP/fJDRjeaIMUX2E+U6HwTluhRDgjvGj4iMb7myHZR4Svh/FwofpOAsIurfQdGd4UOH0jPyodGcJ1bTbAsN/mnrohEdID6MbSO3qfScSmtzNTXi+0zQBgvrdVHVyn4H/E6IbzRNYqJ+FXlIXgEyeSYR/sAVG1cbCJq30O0fEKN3VeV6xj6uKboxvNDWOvODh+SnMN9pkmRBzSpqJEzm0msF9xknsHNhyo8JXw/i4UP0nAWEXVvoOjO8KBr4UO7/AWMXvnemd4fRjaR29N6iVP+gXyWVpKGYsKTAZk1goj8wT4nREkWQGzc5Tiw6o7aAc5K8AUbVxsImrfQ/ucUWutg2iriNa6wsa1YxixjEHOeDMylRH8PFN0Y3miFr3oRRzxb7aC2d3i9X/KOUN6HvUbu0eEr4fxcKH6TgLCLq30HRneFA8XCh4/vwFi5/SM1DGdwH0Y2kdvUSF11kyMObaKY0xmVr5trHs81yUJ1ad9XcRoe4zIREJ4dLMnzy2gpBQ4eYKK7JOSjauNhE1b6H9zjRhBYQV8L5kVo6lO80YIorG/EutSGjG80Qte9PHObdCwbnfdFRu4aPCV8P4uFETScBYRdW+g6M7wi4X2XVFa+04QVxEb2ZVhDzU3PaB1lGDAM54TqA6VzDt/Rj6R29NiZMvYqptseFjxsrHjZWPbsLHjZT5urF2WShw/EVy78BuD1lE842m0RtXGwiat9DtHxCjd2yrxBKCPVQNGN5ohT/23Q9mS+OyhkPITb7KI3cNHhK+H8XCh/XE4Cwiy6t9B0Z3igxIYnCPpsqkMTKqC/lP0Y2kdvo5OIHObzZLFRPwsVE/CxUT8LFRPwpNgxScwC5f4gVWStMyqZk1jVWOCMEUR9XGwLXCYK+XGkMxbNF5iVpiV6SLXWwUakeQzFs19wNj9r7j0ftfcej9qb5xD13qREEWrcywZqcSNWGYNkpC8KGOD6hFo2pzX3Ho/ac4vrkiV6VM4UWq3okTXKcrWtSwZJnzKlWeSauo9rqagxgkBYEETBU4cWqMxbNGIYta5lgypmz5Z/reX3Ho/a+49H7X3Ho/a+ZGLuwSVWE0NH0o0+maJRMFonJYiH5LEQ9lYiHsr7eHsqTGhvYFKtXd0Wqb7QyNpjOyWv5T/ACIea796JwnVSsedkLHnZCx52QsefIL5kV56p2AawTcUIeW+T1/ys5Fh/qrUY7Kx/pWP9Kx/pWP9Kx/pWP8ASsf6VdxXnstL5TZdf/xj/8QAKxAAAQIDBgcBAQEBAQAAAAAAAQARECFRMUFhcaHwIIGRscHR8TDhUHCA/9oACAEBAAE/If8AgpIAmWRGWIfwiCCCCCCC7ooI/wCsDMN9JRrgEmQyEZQkpKSkmwCA78TTGXpCEBuCP9QzrCYWzxc5bzcMymLJCHVDJE5jVfNr5tfPoiE+jREW+ckHDGB4Gmv+pu1UGsJHxc0FrEPvkohPlO3cFQB3WMqa/KvaflEgD7Smao0YpiDdDQK0aGFEwomFEwomFEwomFEwomFEXcrgWQZjJ+61GRq1aP5Ax0vZCZkM/JMKJhTRXbdNP9bgAQKPlbqSmFNEwporaGodrJIhJ642sG9oyRISNpKYUTCiYUTCiYUQkXEskEmHcxDEDzADNGrSjfCPOtRd24nTCiYU0RSTLpx0sQAO4hIHOn5btUhRu2CsDmZqaopp2uv1yU7XNVmjK164DY4Oc5JyLsiVXeVcoaFR4Wu27IvyhToSSZeemWpAFbbAgN04SjRo0J5ZcQnUCD/4uFZ3PEUN4j4CEEmmTt4VU43iUJ5AG0dGsJRP06G2yWkgFuxNwTlQY8BTp0ImW779ouLMc6m4Jz8dzDkbCA6AwaGoqZyBv5wKzO4KtHKX47tUhjUh5h3qjBYE9m8UcJIhHmpIAGCA1Osu6qQCdEMZFaYPdFt/tTMsuDEgz34oEQhuvgot8HkuWl4LUduGtQHT4p8U4qEH8DnBu8wMUsAHOJgylNDiMd2g/wAkPNEj46QmhhaDzC8onKP72htslpIGvcBsMEXBBd+WX0IAnAWUb/HXgHIJXJclqvjjMjI9/wAd2qQme0HhU9f5kn0FYBgOSEOFcwh+qFlizyezmgFSSybBb/2RCbATDsFOqekMtEBmPi+FpeC1PbhrSBcbPOsJ0WA6LAHRYA6IACwCGijIJyxhkUW+4JFd0klqX6OgBADIzdUZ6YSGisSQGZQCdwV2QhtslpIGvcBsMEbGmha3wkgBIBImNTufju1ScFRHq/lFFA9wp8dvpgd1ab7BZMWFV9ORncn8dmWZ+ao8wwAsQGFt+SBjKrD2gM9eh1bwiccO8VpeC1PbgMzH2IFzNioTrlBPW1K+UVsirM5wJwCZhEQbnGrgDWR/G6QZa2lg2yQfLCfMpe1rsNtktJA17gNhgjY0MAJeBwcuAJADmxMFIF6yvtaH8d0qQnRmGMbj4R7CFyTZvFDnCDNpzP8AkOMPPgmLAB8CaB8kGdPCPxrTrE2wF4AavsoAkgBJNysUee1b9UyhcG8hJaXgtT24HKx9iJADksF9hfYX2k8MwOTytT/3Py5wIG1vR75xcbnGm0Dg5o23A5iPMWaMtwpDbZLQQNd4A23LETBrc/Rf75QZQWNIkTjUW6IexYYAKTqyLhqCsDlnTL1u98vx3qpUWSx3kQMWiLwVNLMb1W1+1tHtbX7UgJgkZIKcNmn2B5TcGb7HJBFnvCu9rS8Fqe3DWkA+ZTCgTCg6JhQdIjxhPwMODgcC0xPUj5hIJn81tuUCNz+xQElnYIbbJaCAZ0GcI4AoAOWLkAJ4HBQRby0HDecJUUqQD3zpmhiac6x/HdqoPgY5GC3vst77Le+y3vssD/AnuichsHphi1k3UoKSAFgVhSRRHuGk4ISAJiDeESkh7JBzdCM2VZa4IKACYg3hCKMezuTiGWGRhkHw29ze3QAAYQE0aDcQ44oDKz45uhkYAGAEBjUEksl1+fVYdQgKyDZC+/KBAIY2IjJupFzdPEM5n9EcjHUp2xwUjOvhknVMGGwHAEMExBvCMy8uOboDB5NxBjhE80d5L0sOrBqwangLp/esukX/AJDUJv8AIlxBqT5mmPa+dXzi+MXwCZDqMJ16ifEOlZsLBGuRoNbf9RkTtIwG2kD08oYlgZc1tHwt4+FvHwtp+FIwHI6LlG7rABAlxsK//VYqiTbSxG4Wf9LEb5rG75rG75rE75rEb5rE75rE75rskj2THCRtKZPP/wAY/wD/2gAMAwEAAgADAAAAEPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPk8882NPPPPPPPPPPPPPPPPPPPPPPPPPKhNtx4d9PPPPNfvPvP/f/ADzj7Xz3bzzzy3dYxMf/APOGPZyrAW/WF3W9Gch/Ld8888tDhjcE+8/wQ+ADFIohVXW8BST84I88886C9uCp+8rUOLDgDKpgVD18LUbDgY8888g4Pk5CU8e+tPf9uv8ArDzfPDvX3fvvPPPKV8vz8vfPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP/EACIRAAMAAQQCAgMAAAAAAAAAAAABETEQIVFhIHFBkUBQYP/aAAgBAwEBPxD9Ftnyeh6Hqeo441Py3rmRgbWwnl9DTl9DyTGI4J4J4J4J4NhQuwjgUlWi2aguUEvITwTwRwLkMiTwL5kLWrxV6JwnsAnNpBp3TYm0gqapnQLSFOh1HUNgbgRPojHJQZezFoNK2jqEpDcB0jqGl8By+/LK28HaUu+Q8oGO9GDTEJdeMIGMwrFSJL2TZ8mLQx6YvQvBZ2+NxsQkoyGoQjI2AKSSmDTENLI4HwQkJEUZy6QYyRJBi0sei7BUGNDXUURKDaMeOQZljOxCV7stTIxqzFplEISI6jqEbEISMwiGiRjapaJLqQyrWuUEiRCEjOo6PKmBJUWk25OosCUU/mP/xAAqEQACAQEFCAMAAwAAAAAAAAAAAREhMUFxofAQUWGxwdHh8SCBkUBQYP/aAAgBAgEBPxD+iX3EaKNFGijRQsmb+WiSFuQiikVaSxcZHshTVX9FYoZIo4ntJD18kPXyQ9fJD18ja7L5FUuq3jUqaY8jUs5nY1bQnh5GtZQTu4RD18kPXyQ9fI0kqmxvE1+XyQpk+oIs/H6+Jc/V3KcAlOw7BWt3NQPZcchrtFHJHEyGfe9hifShxshLczkUStJbGLaV7jmU/cR5WprekZQ1MWM4onuONkPm9IbfgohRXDY5nIQRVoQ5O1VXxzC5DzSkXlYieMkk2kEN+vJQtceZyXJbLTHoioboE322SfEotMOiLDHoxMy+3qNYtWEL3R+syhqYszey2x6IsMOhz9tldy+NGbkUMIdBPuuD7CTA2FbwHu8tM5Lktlpj0RSN8GmPIpK5R1OiQ9r3yNTj0ZatihbmsQnm3syhqYsz+y2x6IehbVBv8mNJplERkjwtr+OURNp08Di/0g1ZxImwmqCAihpYbHsvBJKWJdORGkl2HUvLJU1HMvJICGMlBsc7o+ikYtr2XglzLHUvDNJLsMKHyDbbl/FSrNDGYTgzgLTASXKjTA0k+wsvvIYxrX/mP//EACsQAQABAgQFBAIDAQEAAAAAAAERACEQMUFhUXGBkaEgwfDxMLFQ0eFwgP/aAAgBAQABPxD/AILMiHFYpsqGESh718w96+Ye9fMPevmHvXzD3r5h718w96fg+as7P8s+DLEYLZ8AJ690TvzJ7SDofhB/gqam4lh3uXhymaIAXLkf5TKB44Ej3ZdcUhicE+wUTVY7G5npFAiDsJ9yTXx32r477V8R9qaIgJVhDtQGk0gQXW8YJAmR0JSOrf5ZSWubJy2bvHaTQrK5c1fdq1VYBImCUc5lBvU5INAOSp818f8Aev6aP04KLYgwIeDAkp8IBoUYfB8aXfLv+LZJJJN2AOvFFKa3KXV7orimlnMOO7Ak4U2SCC4Ep4yYyAchMuXBnYC6eiJxhWL3uKxCdw0ZMRCdLvak6vlIOQOYqLnCrjI0Sr6pJIKUmO8u5AlujDlGEwYGX9JvUEpZlR0e6K3YK684xA+jE3dz4UhZEQVbNW5bY/HSjFEehOa7GbUd+gAdZc6hnQplac3NkdeEZmSqXUc0HRCEcyJ/XoWMbYPSIsDFFP0gI7HV+nKnB6XLXViJE4MHYrQhphkz+4AZYCyTNNcFtpdkENFqnpLZszZoguSI5IXYmkq/sAbjxHZLVCsCAzpSbInTCi1nKA8ZJd1Tl2NS2nMc8hesTyTA5sfhKsO4oKZKyotCgvkwycQGWASagLV0HojJkx5qEJuQLJM3jiQcIvYmFLBuqHWkmMcANA2MqKCAbcQjkg5MOHYB2RU17kF4NhI9Gmol6rznjyA2Th+KlbLN5kzl5gRSfIARuEv8hRXZSRkoPehFgC4AQUnVCaQrYngLUwQgiUKgZvCpTckq2TJX26hvKiPLA3ZiKiAMmob3GpxpIVuyu6kP4fnrSHEqFIYIC5sRnDKjcJdOODfLL2kUj41xMCJCyzVxvCXfDLOgaWOojgcFg6rX49sIa3X3IpwmR0YZPwv6ze/w8eQlBJEZIFnq3TAzkpL2ZUcQYc3oi/q0CyfZ2Wh8JrW/E5C+IT+IlEnMOkVqFkw8w8URC3oylTSKcIrMaChe1Kzwpn9oB9geVE4BoSgmCvrKXXkZYFTrdpD3JeSA8KQgJSNW/wCB+29OQgV9Ir6hX1SvqlZJORHpWEBrAfiE+Gs4hjIUYmlTCRzOU9UKJElDY0zszD4jIVcYI9yDy00QZWbZnnbDJ+F/WbX+PjyD6Xn/AMUUAj1d9IcqCDaVb2DsPxEg1HZiv9BRvUg9GoOMoYQeaCloAxEOgRzCsiUJWBjZ1YKgLBqllc+ZUbVMhVldBezrTs4wRcvMxgoZByYUCj6B5z+v7by6VIs1U5IQnZqfHyg5o37V9X/TAj6r+lWrelGRV5EB1w5C8n+MRHlURH6ZNEJ6wdWDq3MIlRZjgSlxKaiPk2xR0j9a+d4YZPwv6za/x8eQF3TyH+6KuHKRmD/p6EVgXWjGwMOZI+9ZO37onv8AidDtyG6EOxHdQ8ysp4EuiRRlqUCDKHlPZQlM24z51MTqzQsgpzAWeJdaKKwkG6jNDW0g23AeikZAACVaCFhhiBd31S0X9NArmi9fX9t5gelkIM1YK+p19Tr6fS1mEgitjd0KAFHXXQc1ut2MDK2K5ADuQd3Eh51HKGBM0Fg5k9WEYBHXgh+jqmvhOLDJ+F8Eenpzz/l7njQBRhQNSIegtDSCLQDCg2Tcv3aTvibW5q52r6VSMazKHVqAoBTYZtRN8oyzsFR4lOLOU85s/FDLd5kwlS39uZS6QgWwMxNtaeTdLmK/Z6/ZK/Z6tfdiCSQRLxalWQiajm1YpZYSx/ovPKg+gx8Wexej033YT4rSIepAAJpAFbKPsPQvMHDGyd0LowPAwUGRt8wDleho5wFui29/IQ3oKAsw/QThk/C+CPSmNAmdSCe49vRDeEm4HQF6VGJFQqECVv0Ho3hxRQmBnvZGQOK0KZAbb3cBeVrfipFAipKYp5ktwr6qn6qn66n66kEy5K3IFU4Otthk0gkrM30py0HgAMgDwFNTSrs+M7tf8w+T4+gn4Z0iEI1qDWR2H6qR6xGcRnNR5IjpEsjSBGmQHR+qvvlPtdCz+/S16Fok9jmbKhIIDIwnQIO5CTkoIrsvdcjHKHeiEoGgAyDBCTxmREZIh8lff6AvULOpGaZTswZBKslMezPQ4gY5y71FMWnUi+bhQi2RfxZEftTEmf6AKg7NBWhF8z9CZgHSIQjTgSySOwg8zVlZxsSkzL7YJSXMTKJ3dvCn/f0+30+/0daIC7pZeK1Rykl5lu9X8QthnG1ynURoqQRhyQYAWxFEfKPag/7T2rboKHii0AWkkPBcupozCXy/d3fE04CUIGiIv7Sd/wCUeS0B5gW6CzscDTUR0RmSGLE09OlSpmkqHIpjHZbxiKZKyM80dFKiQNm+ANg/lVpfuIHmh7ApiI3AH2en0MOX61jLLPYTSe80bHC+dkq8bZf+Mf/Z) 8% center/250% auto no-repeat;border:1px solid #ddd}
+.ntf .tx{flex:1;font-size:.85rem;line-height:1.3}
+.ntf .tx b{font-size:.9rem}
+.ntf .ap{display:flex;justify-content:space-between;font-size:.72rem;color:#555;margin-bottom:2px}
+.pdf{background:#fff;border:1px solid var(--line);border-radius:6px;padding:12px;font-size:.72rem;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.pdf .ph{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--pri);padding-bottom:6px;margin-bottom:8px}
+.pdf h4{margin:4px 0;font-size:.95rem;text-align:center}
+.pdf .tbl{font-size:.68rem}
+.pdf .pf{text-align:right;color:var(--muted);font-size:.6rem;margin-top:10px}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:8px 4px 0;font-size:.85rem}
+.nav a{padding:6px 10px;border-radius:8px;background:#fff;border:1px solid var(--line);text-decoration:none}
+.banner{background:var(--warnbg);color:#6b4a00;text-align:center;font-size:.72rem;padding:3px 10px}
+.alert{border-left:6px solid;border-radius:10px;padding:10px 12px;margin:8px 0;font-size:.9rem}
+.alert.r{background:var(--errbg);border-color:var(--err);color:#6d1712}
+.alert.y{background:var(--warnbg);border-color:var(--y);color:#5c3b00}
+.alert.s{background:var(--greybg);border-color:var(--grey);color:#3d434c}
+.note{font-size:.8rem;color:var(--muted)}
+.end{margin:26px 4px;font-size:.8rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="intro" id="top">
+<span class="logo big"></span>
+<h1>Контроль рабочего места — макет экранов</h1>
+<p>Пилот: цех 1. Макет для просмотра, без программы: кнопки ведут к нужному экрану ниже. Имена, номера мест и цифры условные.</p>
+<div class="toc">
+<div class="grp">Вход</div>
+<a href="#s1">1. Вход</a>
+<a href="#s2">2. Регистрация и выбор категории</a>
+<div class="grp">Работник</div>
+<a href="#s3">3. Моя смена</a>
+<a href="#s4">4. Сканирование QR места</a>
+<a href="#s5">5. Принял / Не принял</a>
+<a href="#s6">6. Причина «Не принял»</a>
+<a href="#s7">7. Фото с камеры</a>
+<a href="#s8">8. Отметка принята</a>
+<a href="#s9">9. Нет связи</a>
+<div class="grp">Мастер</div>
+<a href="#s10">10. Схема цеха</a>
+<a href="#s11">11. Лента событий</a>
+<a href="#s12">12. Карточка места</a>
+<div class="grp">Начальник цеха и директор по производству</div>
+<a href="#s13">13. Сводка по цеху</a>
+<a href="#s14">14. Сводка по всем цехам</a>
+<a href="#s15">15. Отчёт PDF (как выглядит)</a>
+<a href="#s16">16. Сменный план по цехам</a>
+<a href="#s17">17. Правка дня в плане</a>
+<div class="grp">Уведомления</div>
+<a href="#s18">18. Push на телефоне</a>
+</div>
+</div>
+
+<!-- 1 Вход -->
+<div class="cap">Экран 1 <b>Вход</b></div>
+<div class="phone" id="s1">
+<div class="status"><span>07:31</span><span>Wi-Fi 100%</span></div>
+<div class="scr">
+<div style="text-align:center;margin:30px 0 10px"><span class="logo big"></span></div>
+<h2 style="text-align:center">Контроль рабочего места</h2>
+<div class="sub" style="text-align:center">Цех 1, пилот</div>
+<span class="fld">Табельный номер</span><span class="inp">000123</span>
+<span class="fld">PIN-код</span><span class="inp">• • • •</span>
+<a class="btn pri huge" href="#s3">Войти</a>
+<a class="btn ghost" href="#s2">Первый вход: регистрация</a>
+<div class="grow"></div>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s2">Регистрация</a><a href="#top">Оглавление</a></div>
+
+<!-- 2 Регистрация -->
+<div class="cap">Экран 2 <b>Регистрация: выбор категории</b></div>
+<div class="phone" id="s2">
+<div class="status"><span>07:29</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Регистрация</span></div>
+<div class="scr">
+<h2>Регистрация</h2>
+<span class="fld">ФИО</span><span class="inp">Иванов Иван Иванович</span>
+<span class="fld">Табельный номер</span><span class="inp">000123</span>
+<span class="fld">Цех</span><span class="inp">Цех 1</span>
+<h3>Кто вы</h3>
+<a class="role sel" href="#s3"><span class="ic">👷</span><span>Работник<small>отмечаю рабочее место</small></span></a>
+<a class="role" href="#s10"><span class="ic">🧭</span><span>Мастер<small>вижу схему цеха и ленту</small></span></a>
+<a class="role" href="#s13"><span class="ic">🏭</span><span>Начальник цеха<small>сводка, отчёты, сменный план</small></span></a>
+<a class="role" href="#s14"><span class="ic">📊</span><span>Директор по производству<small>все цехи, отчёты</small></span></a>
+<a class="btn pri" href="#s3">Отправить на подтверждение</a>
+<div class="note">Категорию «мастер» и выше подтверждает руководитель. До подтверждения доступен только экран работника.</div>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s3">Работник</a><a href="#s10">Мастер</a><a href="#s13">Начальник цеха</a><a href="#s14">Директор</a></div>
+
+<!-- 3 Моя смена -->
+<div class="cap">Экран 3 <b>Работник: моя смена</b></div>
+<div class="phone" id="s3">
+<div class="status"><span>07:34</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Иванов И.И.<br>работник</span></div>
+<div class="scr">
+<h2>Смена 25.11, день</h2>
+<div class="sub">08:00 – 20:00 (12 ч), бригада А</div>
+<div class="card">
+<div class="note">Отметиться до</div>
+<div class="big">07:50</div>
+<div class="note">осталось 16 мин</div>
+</div>
+<div class="steps">
+<div class="step wait"><b>1. QR места</b>ждём</div>
+<div class="step"><b>2. Фото</b>после QR</div>
+</div>
+<div class="grow"></div>
+<a class="btn pri huge" href="#s4">📷 Сканировать QR места</a>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s4">Далее: сканирование</a><a href="#top">Оглавление</a></div>
+
+<!-- 4 Сканирование -->
+<div class="cap">Экран 4 <b>Работник: сканирование QR места</b></div>
+<div class="phone" id="s4">
+<div class="status"><span>07:35</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Иванов И.И.<br>работник</span></div>
+<div class="scr">
+<h2>Наведите на QR места</h2>
+<div class="sub">QR висит на месте: бумажная табличка или электронная (e-ink)</div>
+<a class="cam" href="#s5" style="text-decoration:none"><span class="tag">Камера</span><span class="frame"><span class="qr"></span></span><span class="hint">Код считывается сам (имитация: нажмите)</span></a>
+<div class="grow"></div>
+<a class="btn sm" href="#s3">Отмена</a>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s5">Далее: место распознано</a></div>
+
+<!-- 5 Принял / Не принял -->
+<div class="cap">Экран 5 <b>Работник: принять место</b></div>
+<div class="phone" id="s5">
+<div class="status"><span>07:36</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Иванов И.И.<br>работник</span></div>
+<div class="scr">
+<div class="alert" style="background:var(--okbg);border-color:var(--ok);color:var(--ok)"><b>QR считан в 07:36</b></div>
+<div class="card">
+<div class="note">Рабочее место</div>
+<div class="big">М-07</div>
+<div>Участок А, пост 7 (условно)</div>
+</div>
+<h3>Место в порядке?</h3>
+<div class="grow"></div>
+<a class="btn ok huge" href="#s7">✓ Принял</a>
+<a class="btn no huge" href="#s6">✕ Не принял</a>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s7">Принял</a><a href="#s6">Не принял</a></div>
+
+<!-- 6 Причина -->
+<div class="cap">Экран 6 <b>Работник: причина «Не принял»</b></div>
+<div class="phone" id="s6">
+<div class="status"><span>07:37</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Иванов И.И.<br>работник</span></div>
+<div class="scr">
+<h2>Почему не принял</h2>
+<div class="sub">Место М-07. Выберите одну причину</div>
+<a class="opt" href="#s7"><span class="rb"></span>Неисправно оборудование</a>
+<a class="opt sel" href="#s7"><span class="rb"></span>Нет инструмента или оснастки</a>
+<a class="opt" href="#s7"><span class="rb"></span>Грязно, не убрано</a>
+<a class="opt" href="#s7"><span class="rb"></span>Опасно: нарушена безопасность</a>
+<a class="opt" href="#s7"><span class="rb"></span>Нет материала</a>
+<a class="opt" href="#s7"><span class="rb"></span>Другое</a>
+<span class="fld">Комментарий (по желанию)</span><span class="inp ph">Нет ключа на 32</span>
+<a class="btn no" href="#s7">Далее: фото</a>
+<div class="note">Мастер получит уведомление сразу.</div>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s7">Далее: фото</a></div>
+
+<!-- 7 Фото -->
+<div class="cap">Экран 7 <b>Работник: фото только с камеры</b></div>
+<div class="phone" id="s7">
+<div class="status"><span>07:37</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Иванов И.И.<br>работник</span></div>
+<div class="scr">
+<h2>Сфотографируйте место</h2>
+<div class="sub">Шаг 2 из 2</div>
+<div class="camwrap">
+<div class="cam" style="height:300px;margin:0"><span class="tag">Камера · М-07</span><span class="hint">Имитация камеры</span></div>
+<a class="shot" href="#s8" aria-label="Сделать фото"></a>
+<div class="note">Только камера: выбор из галереи отключён. Время и место ставятся на фото сами.</div>
+</div>
+<div class="grow"></div>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s8">Далее: готово</a><a href="#s9">Если нет связи</a></div>
+
+<!-- 8 Готово -->
+<div class="cap">Экран 8 <b>Работник: отметка принята</b></div>
+<div class="phone" id="s8">
+<div class="status"><span>07:38</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Иванов И.И.<br>работник</span></div>
+<div class="scr">
+<div class="okbig"><div class="c">✓</div><h2>Отметка принята</h2><div class="sub">07:38, место М-07, до срока</div></div>
+<div class="steps">
+<div class="step done"><b>1. QR места</b>07:36</div>
+<div class="step done"><b>2. Фото</b>07:38</div>
+</div>
+<div class="card"><div class="kv"><span>Место</span><b>М-07</b><span>Решение</span><b>Принял</b><span>Смена</span><b>08:00 – 20:00</b></div></div>
+<div class="grow"></div>
+<a class="btn sm" href="#s3">На главную</a>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s9">Если нет связи</a><a href="#s10">Что видит мастер</a></div>
+
+<!-- 9 Нет связи -->
+<div class="cap">Экран 9 <b>Работник: нет связи</b></div>
+<div class="phone" id="s9">
+<div class="status"><span>07:38</span><span>Нет сети</span></div>
+<div class="top"><span class="logo"></span><span class="who">Иванов И.И.<br>работник</span></div>
+<div class="scr">
+<div class="okbig"><div class="c y">⏳</div><h2>Сохранено в телефоне</h2><div class="sub">Отправится само, когда появится сеть</div></div>
+<div class="alert s">Время отметки 07:38 записано. Потеря связи <b>не считается пропуском</b>: у мастера место будет серым, не красным.</div>
+<div class="steps">
+<div class="step done"><b>1. QR места</b>07:36</div>
+<div class="step done"><b>2. Фото</b>07:38</div>
+</div>
+<div class="grow"></div>
+<a class="btn sm" href="#s3">На главную</a>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s10">Далее: мастер</a></div>
+
+<!-- 10 Схема цеха -->
+<div class="cap">Экран 10 <b>Мастер: цветная схема цеха</b></div>
+<div class="phone" id="s10">
+<div class="status"><span>07:52</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Петров П.П.<br>мастер, цех 1</span></div>
+<div class="scr">
+<div class="tabs"><span class="on">Схема</span><a href="#s11">Лента</a></div>
+<h2 style="margin-bottom:.2rem">Цех 1, день 25.11</h2>
+<div class="sub" style="margin:0 0 .3rem">Срок отметки 07:50, сейчас 07:52</div>
+<div class="cnt">
+<div class="g"><b>14</b>отметились</div>
+<div class="y"><b>4</b>ждём</div>
+<div class="r"><b>3</b>нет / не принял</div>
+<div class="s"><b>3</b>нет связи / не смена</div>
+</div>
+<div class="leg"><span><i class="g"></i>отметился</span><span><i class="y"></i>ждём до срока</span><span><i class="r"></i>не отметился</span><span><i class="s"></i>нет связи / не смена</span></div>
+<div class="zone"><div class="zn">Участок А</div><div class="map"><a class="m g" href="#s12">01</a><a class="m g" href="#s12">02</a><a class="m g" href="#s12">03</a><a class="m g" href="#s12">04</a><a class="m g" href="#s12">05</a><a class="m g" href="#s12">06</a><a class="m g" href="#s12">07</a><a class="m g" href="#s12">08</a><a class="m g" href="#s12">09</a><a class="m g" href="#s12">10</a><a class="m g" href="#s12">11</a><a class="m r" href="#s12">12</a></div></div><div class="zone"><div class="zn">Участок Б</div><div class="map"><a class="m g" href="#s12">13</a><a class="m g" href="#s12">14</a><a class="m r" href="#s12">15!</a><a class="m g" href="#s12">16</a><a class="m r" href="#s12">17</a><a class="m s" href="#s12">18</a></div></div><div class="zone"><div class="zn">Участок В · смена с 08:30, срок 08:20</div><div class="map"><a class="m y" href="#s12">19</a><a class="m y" href="#s12">20</a><a class="m y" href="#s12">21</a><a class="m y" href="#s12">22</a></div></div><div class="zone"><div class="zn">Резерв · не в смене</div><div class="map"><a class="m s" href="#s12">23</a><a class="m s" href="#s12">24</a></div></div><div class="note">«!» — место не принято работником (причина в карточке).</div>
+<div class="note">Нажмите на место: кто, когда, фото.</div>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s11">Лента событий</a><a href="#s12">Карточка места</a></div>
+
+<!-- 11 Лента -->
+<div class="cap">Экран 11 <b>Мастер: лента событий</b></div>
+<div class="phone" id="s11">
+<div class="status"><span>07:53</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Петров П.П.<br>мастер, цех 1</span></div>
+<div class="scr">
+<div class="tabs"><a href="#s10">Схема</a><span class="on">Лента</span></div>
+<h2>События, новые сверху</h2>
+<ul class="feed card">
+<li><span class="t">07:51</span><span class="d" style="background:var(--r)"></span><a href="#s12" style="color:inherit;text-decoration:none"><b>М-12, М-17: нет отметки</b> к 07:50. Уведомление ушло мастеру</a></li>
+<li><span class="t">07:49</span><span class="d" style="background:var(--g)"></span><span><b>М-03</b> Сидоров С. принял</span></li>
+<li><span class="t">07:47</span><span class="d" style="background:var(--r)"></span><a href="#s12" style="color:inherit;text-decoration:none"><b>М-15 не принял</b>: неисправно оборудование</a></li>
+<li><span class="t">07:44</span><span class="d" style="background:var(--s)"></span><span><b>М-18</b> нет связи, отметка придёт позже</span></li>
+<li><span class="t">07:41</span><span class="d" style="background:var(--g)"></span><span><b>М-09</b> Кузнецов К. принял</span></li>
+<li><span class="t">07:38</span><span class="d" style="background:var(--g)"></span><span><b>М-07</b> Иванов И. принял</span></li>
+<li><span class="t">07:36</span><span class="d" style="background:var(--y)"></span><span><b>М-07</b> QR считан, ждём фото</span></li>
+<li><span class="t">07:30</span><span class="d" style="background:var(--s)"></span><span>Смена «день» открыта, мест в плане: 22</span></li>
+</ul>
+<div class="note">Лента обновляется сама, без перезагрузки.</div>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s12">Карточка места</a></div>
+
+<!-- 12 Карточка места -->
+<div class="cap">Экран 12 <b>Мастер: карточка места</b></div>
+<div class="phone" id="s12">
+<div class="status"><span>07:54</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Петров П.П.<br>мастер, цех 1</span></div>
+<div class="scr">
+<h2>Место М-15 <span class="pill r" style="color:#fff">не принял</span></h2>
+<div class="card"><div class="kv">
+<span>Кто</span><b>Смирнов А.</b>
+<span>QR</span><b>07:45</b>
+<span>Фото</span><b>07:47</b>
+<span>Причина</span><b>Неисправно оборудование</b>
+<span>Комментарий</span><b>Не включается привод</b>
+</div></div>
+<div class="photo">Фото с места (в макете заглушка)</div>
+<a class="btn pri" href="#s11">Принял к сведению</a>
+<a class="btn sm" href="#s10">Назад к схеме</a>
+<div class="note">Фото не проверяется программой: фиксируется только факт снимка.</div>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s13">Начальник цеха</a></div>
+
+<!-- 13 Сводка по цеху -->
+<div class="cap">Экран 13 <b>Начальник цеха: сводка по цеху</b></div>
+<div class="phone" id="s13">
+<div class="status"><span>08:05</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Соколов С.С.<br>начальник цеха 1</span></div>
+<div class="scr">
+<div class="tabs"><span class="on">Смена</span><span>Сутки</span><span>Неделя</span></div>
+<h2>Цех 1, день 25.11</h2>
+<div class="card">
+<div class="note">Отметились вовремя</div>
+<div class="big">82 %</div>
+<div class="bar" style="margin-top:6px"><i style="width:82%;background:var(--g)"></i><i style="width:14%;background:var(--r)"></i><i style="width:4%;background:var(--s)"></i></div>
+<div class="note" style="margin-top:4px">18 из 22 мест · 2 нет отметки · 1 не принял · 1 нет связи</div>
+</div>
+<table class="tbl card" style="display:table">
+<tr><th>Участок</th><th>Мест</th><th>Вовремя</th><th>Не принял</th></tr>
+<tr><td>Участок А</td><td>12</td><td>11</td><td>0</td></tr>
+<tr><td>Участок Б</td><td>6</td><td>3</td><td>1</td></tr>
+<tr><td>Участок В</td><td>4</td><td>4</td><td>0</td></tr>
+</table>
+<a class="btn sm" href="#s10">Схема цеха</a>
+<a class="btn sm" href="#s16">Сменный план</a>
+<div class="grow"></div>
+<a class="btn pri" href="#s15">⬇ Скачать PDF: цех 1</a>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s14">Все цехи</a><a href="#s15">PDF</a><a href="#s16">Сменный план</a></div>
+
+<!-- 14 Все цехи -->
+<div class="cap">Экран 14 <b>Директор по производству: все цехи</b></div>
+<div class="phone" id="s14">
+<div class="status"><span>08:10</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Орлов О.О.<br>директор по производству</span></div>
+<div class="scr">
+<div class="tabs"><span class="on">Смена</span><span>Сутки</span><span>Неделя</span></div>
+<h2>Сводка по цехам, 25.11</h2>
+<a class="card" href="#s13" style="display:block;text-decoration:none;color:inherit">
+<div style="display:flex;justify-content:space-between"><b>Цех 1</b><b style="color:var(--ok)">82 %</b></div>
+<div class="bar" style="margin:6px 0 4px"><i style="width:82%;background:var(--g)"></i><i style="width:14%;background:var(--r)"></i><i style="width:4%;background:var(--s)"></i></div>
+<div class="note">22 места · 2 нет отметки · 1 не принял · смена 12 ч</div>
+</a>
+<div class="card">
+<div style="display:flex;justify-content:space-between"><b>Цех 2</b><b style="color:var(--warn)">74 %</b></div>
+<div class="bar" style="margin:6px 0 4px"><i style="width:74%;background:var(--g)"></i><i style="width:20%;background:var(--r)"></i><i style="width:6%;background:var(--s)"></i></div>
+<div class="note">16 мест · 3 нет отметки · смена 8 ч</div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between"><b>Цех 3</b><b style="color:var(--ok)">93 %</b></div>
+<div class="bar" style="margin:6px 0 4px"><i style="width:93%;background:var(--g)"></i><i style="width:7%;background:var(--r)"></i></div>
+<div class="note">14 мест · 1 нет отметки · смена 12 ч</div>
+</div>
+<div class="note">Цехи 2 и 3 показаны для примера: в пилоте работает только цех 1.</div>
+<div class="grow"></div>
+<div class="two">
+<a class="btn pri" href="#s15">⬇ PDF: цех</a>
+<a class="btn pri" href="#s15">⬇ PDF: все цехи</a>
+</div>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s15">PDF</a></div>
+
+<!-- 15 PDF -->
+<div class="cap">Экран 15 <b>Отчёт PDF: как выглядит лист</b></div>
+<div class="phone" id="s15">
+<div class="status"><span>08:11</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Просмотр PDF</span></div>
+<div class="scr">
+<div class="pdf">
+<div class="ph"><span class="logo" style="width:90px;height:27px"></span><span>25.11.2026, смена «день»</span></div>
+<h4>Контроль рабочего места: все цехи</h4>
+<table class="tbl">
+<tr><th>Цех</th><th>Мест</th><th>Вовремя</th><th>Нет отметки</th><th>Не принял</th><th>Нет связи</th></tr>
+<tr><td>Цех 1</td><td>22</td><td>18</td><td>2</td><td>1</td><td>1</td></tr>
+<tr><td>Цех 2</td><td>16</td><td>12</td><td>3</td><td>0</td><td>1</td></tr>
+<tr><td>Цех 3</td><td>14</td><td>13</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td><b>Итого</b></td><td><b>52</b></td><td><b>43</b></td><td><b>6</b></td><td><b>1</b></td><td><b>2</b></td></tr>
+</table>
+<h4 style="text-align:left;font-size:.8rem;margin-top:10px">Нет отметки и «не принял»</h4>
+<table class="tbl">
+<tr><th>Цех</th><th>Место</th><th>Событие</th><th>Время</th></tr>
+<tr><td>1</td><td>М-12</td><td>нет отметки</td><td>07:50</td></tr>
+<tr><td>1</td><td>М-15</td><td>не принял: оборудование</td><td>07:47</td></tr>
+<tr><td>1</td><td>М-17</td><td>нет отметки</td><td>07:50</td></tr>
+<tr><td>2</td><td>М-04</td><td>нет отметки</td><td>07:50</td></tr>
+</table>
+<div class="pf">Разработано: Калачев М.В.</div>
+</div>
+<div class="note" style="margin-top:8px">В PDF: логотип, дата и смена, итоги, список отклонений, подпись разработчика. Отчёт по одному цеху такой же, плюс схема цеха.</div>
+<div class="grow"></div>
+<a class="btn sm" href="#s14">Закрыть</a>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s16">Сменный план</a></div>
+
+<!-- 16 Сменный план -->
+<div class="cap">Экран 16 <b>Сменный план по цехам</b></div>
+<div class="phone" id="s16">
+<div class="status"><span>16:20</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Соколов С.С.<br>начальник цеха 1</span></div>
+<div class="scr">
+<h2>Сменный план</h2>
+<span class="fld">Цех</span><span class="inp">Цех 1 ▾</span>
+<span class="fld">Режим смен цеха</span>
+<div class="seg"><span class="on">12 ч: 08–20, 20–08</span><span>8 ч: 3 смены</span></div>
+<span class="fld">Срок отметки</span><span class="inp">за 10 мин до начала смены</span>
+<h3>Декабрь 2026 · бригада А</h3>
+<div class="cal">
+<span class="h">Пн</span><span class="h">Вт</span><span class="h">Ср</span><span class="h">Чт</span><span class="h">Пт</span><span class="h">Сб</span><span class="h">Вс</span>
+<span class="c off"></span><a class="" href="#s17"><b>1</b>Д</a><a class="" href="#s17"><b>2</b>Д</a><a class="" href="#s17"><b>3</b>Н</a><a class="" href="#s17"><b>4</b>Н</a><a class="off" href="#s17"><b>5</b>В</a><a class="off" href="#s17"><b>6</b>В</a><a class="off" href="#s17"><b>7</b>В</a><a class="off" href="#s17"><b>8</b>В</a><a class="edt" href="#s17"><b>9</b>Н</a><a class="" href="#s17"><b>10</b>Д</a><a class="" href="#s17"><b>11</b>Н</a><a class="" href="#s17"><b>12</b>Н</a><a class="off" href="#s17"><b>13</b>В</a><a class="off" href="#s17"><b>14</b>В</a><a class="off" href="#s17"><b>15</b>В</a><a class="off" href="#s17"><b>16</b>В</a><a class="" href="#s17"><b>17</b>Д</a><a class="" href="#s17"><b>18</b>Д</a><a class="" href="#s17"><b>19</b>Н</a><a class="" href="#s17"><b>20</b>Н</a><a class="off" href="#s17"><b>21</b>В</a><a class="off" href="#s17"><b>22</b>В</a><a class="off" href="#s17"><b>23</b>В</a><a class="off" href="#s17"><b>24</b>В</a><a class="" href="#s17"><b>25</b>Д</a><a class="" href="#s17"><b>26</b>Д</a><a class="" href="#s17"><b>27</b>Н</a><a class="" href="#s17"><b>28</b>Н</a><a class="off" href="#s17"><b>29</b>В</a><a class="off" href="#s17"><b>30</b>В</a><a class="off" href="#s17"><b>31</b>В</a>
+</div>
+<div class="leg" style="margin-top:6px"><span>Д — день 08–20</span><span>Н — ночь 20–08</span><span>В — выходной</span><span style="color:var(--pri)">рамка — изменено вручную</span></div>
+<a class="btn pri" href="#s17">Загрузить план из файла (Excel)</a>
+<div class="two"><a class="btn sm" href="#s17">Пересчитать</a><a class="btn sm" href="#s17">Сохранить</a></div>
+<div class="note">Нажмите на день, чтобы изменить. Изменения видят все, кто работает с цехом; кто и когда правил, записывается.</div>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s17">Правка дня</a></div>
+
+<!-- 17 Правка дня -->
+<div class="cap">Экран 17 <b>Правка дня в сменном плане</b></div>
+<div class="phone" id="s17">
+<div class="status"><span>16:22</span><span>Wi-Fi 100%</span></div>
+<div class="top"><span class="logo"></span><span class="who">Соколов С.С.<br>начальник цеха 1</span></div>
+<div class="scr">
+<h2>Ср, 09.12 · бригада А</h2>
+<div class="sub">Цех 1 · сейчас в плане: день</div>
+<a class="opt" href="#s16"><span class="rb"></span>День 08:00 – 20:00</a>
+<a class="opt sel" href="#s16" style="border-color:var(--pri);background:var(--pri2)"><span class="rb" style="border:7px solid var(--pri)"></span>Ночь 20:00 – 08:00</a>
+<a class="opt" href="#s16"><span class="rb"></span>Выходной</a>
+<a class="opt" href="#s16"><span class="rb"></span>Своё время (указать)</a>
+<span class="fld">Места бригады в этот день</span><span class="inp">Все места участка А (12)</span>
+<span class="fld">Причина правки</span><span class="inp ph">Перенос по графику ремонта</span>
+<div class="grow"></div>
+<a class="btn pri" href="#s16">Сохранить день</a>
+<a class="btn sm" href="#s16">Отмена</a>
+</div>
+<div class="foot">Разработано: Калачев М.В.</div>
+</div>
+<div class="nav"><a href="#s18">Push-уведомления</a></div>
+
+<!-- 18 Push -->
+<div class="cap">Экран 18 <b>Push-уведомления на телефоне</b></div>
+<div class="phone" id="s18">
+<div class="lock">
+<div class="tm">07:52</div>
+<div class="dt">среда, 25 ноября</div>
+<a class="ntf" href="#s3"><span class="ai"></span><span class="tx"><span class="ap"><span>КОНТРОЛЬ МЕСТА · работнику</span><span>07:40</span></span><b>Отметьте рабочее место</b><br>До 07:50 осталось 10 мин. Место М-12.</span></a>
+<a class="ntf" href="#s12"><span class="ai"></span><span class="tx"><span class="ap"><span>КОНТРОЛЬ МЕСТА · мастеру</span><span>07:51</span></span><b>Цех 1: 2 места без отметки</b><br>М-12, М-17 не отметились к 07:50.</span></a>
+<a class="ntf" href="#s12"><span class="ai"></span><span class="tx"><span class="ap"><span>КОНТРОЛЬ МЕСТА · мастеру</span><span>07:47</span></span><b>М-15: не принял</b><br>Неисправно оборудование. Смирнов А.</span></a>
+<a class="ntf" href="#s13"><span class="ai"></span><span class="tx"><span class="ap"><span>КОНТРОЛЬ МЕСТА · начальнику цеха</span><span>08:05</span></span><b>Цех 1: итог начала смены</b><br>Вовремя 82 %, нет отметки 2, не принял 1.</span></a>
+<div style="text-align:center;font-size:.75rem;opacity:.7;margin-top:18px">Нажатие на уведомление открывает нужный экран</div>
+</div>
+</div>
+<div class="nav"><a href="#top">Оглавление</a></div>
+
+<div class="end">Цепочка уведомлений: работнику за 10 мин до срока; мастеру сразу после срока или при «не принял»; начальнику цеха итог через 15 мин после начала смены; директору по производству по запросу или сводкой. Сроки условные, задаются в настройках.
+<div style="text-align:right;margin-top:14px;font-size:.7rem">Разработано: Калачев М.В.</div></div>
+
+</div>
+</body>
+</html>
